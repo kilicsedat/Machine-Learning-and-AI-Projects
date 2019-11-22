@@ -17,9 +17,9 @@ from keras.applications import inception_v3
 get_ipython().run_line_magic('matplotlib', 'inline')
 
  
-filename = 'dani_the_dog.jpg'
-dani = load_img(filename, target_size=(299,299))
-plt.imshow(dani)
+filename = 'dog.jpg'
+dog = load_img(filename, target_size=(299,299))
+plt.imshow(dog)
 plt.show()
  
 
@@ -32,7 +32,7 @@ plt.show()
 model = inception_v3.InceptionV3()
 
 # Convert the image into batch format
-numpy_image = img_to_array(dani)
+numpy_image = img_to_array(dog)
 numpy_image = np.expand_dims(numpy_image, axis=0)
 print numpy_image.shape
 
@@ -49,7 +49,7 @@ print('Predicted:', decode_predictions(preds, top=10)[0])
 # In[ ]:
 
 
-#turn dani into a toaster
+#turn dog into a toaster
 object_type_to_fake = 859
 
 #extract input and output layers
