@@ -66,7 +66,7 @@ hacked_image = np.copy(numpy_image)
 #learning rate
 learning_rate = 0.2
 
-#cost will be probability that image is a toaster (we will maximize)
+#cost will be probability that image is a toaster (we need to maximize)
 cost_function = model_output_layer[0, object_type_to_fake]
 
 #keras has functions to get gradients 
