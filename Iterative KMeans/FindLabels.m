@@ -1,6 +1,4 @@
 function [L] = FindLabels(X, C, k)
-%UNTITLED2 Summary of this function goes here
-%   Detailed explanation goes here
 
 D = zeros(length(X), k, 'double');
     for i =1:k
