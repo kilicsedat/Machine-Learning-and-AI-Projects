@@ -1,6 +1,5 @@
 function [SLL] = GetPixel(img, C, P,  n, k)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
+
     figure;
     imshow(img);
     [x,y] = ginput(n);
