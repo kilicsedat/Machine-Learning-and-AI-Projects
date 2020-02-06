@@ -4,13 +4,13 @@
 # In[1]:
 
 
+import numpy as np
+import keras
 from keras.preprocessing.image import load_img
 from keras.preprocessing.image import img_to_array
 from PIL import Image
 from keras.applications.imagenet_utils import decode_predictions
 import matplotlib.pyplot as plt
-import keras
-import numpy as np
 from keras import backend as K
 from keras.applications import inception_v3
  
