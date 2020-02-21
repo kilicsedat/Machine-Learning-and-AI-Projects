@@ -1,1 +1,2 @@
-
+For this project we are comparing our images after kmeans segmentation with ground truths.
+Then later we just plot the metrics and ROC.
