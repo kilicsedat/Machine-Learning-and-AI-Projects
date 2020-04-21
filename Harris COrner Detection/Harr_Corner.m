@@ -6,7 +6,7 @@ function [har] = Harr_Corner(filename)
       im = rgb2gray(im);
     end
         % Parameters for Harris Corner Detection
-    sigma = 1.87;
+    sigma = 1.45;
         %Masks for Derivation
     [dx,dy] = meshgrid(-1:1, -1:1);
 
