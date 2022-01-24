@@ -1,6 +1,6 @@
 function [FObj1,FObj2, FBack] = FilterandCompute(img,h)
 %UNTITLED2 Summary of this function goes here
-%   Detailed explanation goes here
+% details
 imgf = imfilter(img, h);
 figure();
 imshow(imgf);
