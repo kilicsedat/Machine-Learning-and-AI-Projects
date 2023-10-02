@@ -1,0 +1,93 @@
+# Example usage
+data_dir = "shortened_data_for_loader"
+filename = "features.xlsx"
+clip_len = 16
+frame_sample_rate = 8
+#saver = VideoDataset_Feature_Saver(data_dir, clip_len=clip_len, frame_sample_rate=frame_sample_rate, model_feature_exctraction=model_feature_exctraction, image_processor=image_processor)
+saver_ViT = VideoDataset_Feature_Saver_ViT(data_dir, clip_len=clip_len, frame_sample_rate=frame_sample_rate, model_feature_exctraction=model_feature_exctraction_ViT, image_processor=image_processor_ViT)
+
+
+
+my_dataset = saver_ViT
+
+with open('my_dataset.pkl', 'wb') as f:
+    pickle.dump(my_dataset, f)
+
+with open('my_dataset.pkl', 'rb') as f:
+    my_dataset2 = pickle.load(f)
+
+my_dataloader = torch.utils.data.DataLoader(my_dataset2, batch_size=4, shuffle=True)
+
+# Define the Transformer-based video classification model
+class VideoTransformer(nn.Module):
+    def __init__(self, input_size, num_classes, num_heads, hidden_size, num_layers, dropout):
+        super(VideoTransformer, self).__init__()
+
+        self.embedding = nn.Linear(input_size, hidden_size)
+        self.positional_encoding = PositionalEncoding(hidden_size)
+        encoder_layer = nn.TransformerEncoderLayer(hidden_size, num_heads, hidden_size, dropout)
+        self.encoder = nn.TransformerEncoder(encoder_layer, num_layers)
+        self.fc = nn.Linear(hidden_size, num_classes)
+
+    def forward(self, x):
+        x = self.embedding(x)
+        x = self.positional_encoding(x)
+        x = x.permute(1, 0, 2)  # Transpose to have time steps first
+        x = self.encoder(x)
+        x = x.mean(dim=0)  # Aggregate temporal information
+        x = self.fc(x)
+        return
+        
+# Instantiate the model
+input_size = 768  # Input size of each video clip tensor
+num_classes = 2  # Number of classes for classification
+num_heads = 8  # Number of attention heads
+hidden_size = 512  # Hidden size of the transformer
+num_layers = 6  # Number of transformer layers
+dropout = 0.1  # Dropout probability
+model = VideoTransformer(input_size, num_classes, num_heads, hidden_size, num_layers, dropout)
+
+# Define loss function and optimizer
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.Adam(model.parameters(), lr=0.001)
+
+# Training loop
+num_epochs = 1
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model.to(device)
+
+for epoch in range(num_epochs):
+    model.train()  # Set the model to training mode
+    running_loss = 0.0
+
+    for batch_idx, (inputs, labels) in enumerate(my_dataloader):
+        inputs = inputs.to(device)
+        labels = labels.to(device)
+
+        # Zero the gradients
+        optimizer.zero_grad()
+
+        # Forward pass
+        outputs = model(inputs)
+
+        # Compute loss
+        loss = criterion(outputs, labels)
+
+        # Backward pass
+        loss.backward()
+
+        # Update weights
+        optimizer.step()
+
+        # Track the loss
+        running_loss += loss.item()
+
+        # Print training progress
+        if (batch_idx + 1) % 10 == 0:
+            print('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}'
+                  .format(epoch + 1, num_epochs, batch_idx + 1, len(dataloader), running_loss / 10))
+            running_loss = 0.0
+
+# Save the trained model
+torch.save(model.state_dict(), 'video_transformer.pth')
