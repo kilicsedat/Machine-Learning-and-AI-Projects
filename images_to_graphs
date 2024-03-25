@@ -1,0 +1,46 @@
+import networkx as nx
+import matplotlib.pyplot as plt
+from skimage.segmentation import slic
+from skimage.color import rgb2gray
+from skimage.io import imread
+
+# Load your image (replace "batman.jpg" with your image path)
+image_path = "batman.jpg"
+image = imread(image_path)
+
+# Convert the image to grayscale
+gray_image = rgb2gray(image)
+
+# Perform superpixel segmentation using SLIC
+segments = slic(gray_image, n_segments=100, compactness=10)
+
+# Create a graph
+G = nx.Graph()
+
+# Add nodes (superpixels) to the graph
+for segment_id in range(segments.max() + 1):
+    G.add_node(segment_id)
+
+# Add edges (adjacency) based on spatial proximity
+for i in range(image.shape[0]):
+    for j in range(image.shape[1]):
+        current_segment = segments[i, j]
+        neighbors = [(i + dx, j + dy) for dx in [-1, 0, 1] for dy in [-1, 0, 1]]
+        for ni, nj in neighbors:
+            if 0 <= ni < image.shape[0] and 0 <= nj < image.shape[1]:
+                neighbor_segment = segments[ni, nj]
+                if neighbor_segment != current_segment:
+                    G.add_edge(current_segment, neighbor_segment)
+
+# Plot the original image and its superpixels side by side
+fig, axs = plt.subplots(1, 2, figsize=(12, 6))
+axs[0].imshow(image)
+axs[0].set_title("Original Image")
+nx.draw(G, pos=nx.spring_layout(G, seed=42), node_size=10, node_color="b", with_labels=False, ax=axs[1])
+axs[1].set_title("Superpixels")
+plt.show()
+
+# Print the adjacency matrix
+adj_matrix = nx.adjacency_matrix(G).toarray()
+print("\nAdjacency Matrix:")
+print(adj_matrix)
