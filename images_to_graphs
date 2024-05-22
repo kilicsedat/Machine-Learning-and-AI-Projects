@@ -5,8 +5,8 @@ from skimage.color import rgb2gray
 from skimage.io import imread
 
 # Load your image (replace "batman.jpg" with your image path)
-image_path = "batman.jpg"
-image = imread(image_path)
+image_pathh = "batman.jpg"
+image = imread(image_pathh)
 
 # Convert the image to grayscale
 gray_image = rgb2gray(image)
