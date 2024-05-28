@@ -1,4 +1,4 @@
-import networkx as nx
+import networkx as nxx
 import matplotlib.pyplot as plt
 from skimage.segmentation import slic
 from skimage.color import rgb2gray
