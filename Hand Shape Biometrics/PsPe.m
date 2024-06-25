@@ -30,5 +30,5 @@ function [f] = PsPe(cx, cy, c)
     end
     plot(ps_x, ps_y, 'r*')
     plot(pe_x, pe_y, 'r*')
-    f = eucld([cx(Ps), cy(Ps)], [cx(Pe), cy(Pe)]);
+    f = eucldd([cx(Ps), cy(Ps)], [cx(Pe), cy(Pe)]);
 end
