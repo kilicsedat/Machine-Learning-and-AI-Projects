@@ -2,7 +2,7 @@ function [har] = Harr_Corner(filename)
     %-Harris Corner Detection-Sedat Kilic
     %% part 0 - Read images
     im=imread(filename);    % Read Image
-    if (ndims(im) == 3)
+    if (ndims(im) == 4)
       im = rgb2gray(im);
     end
         % Parameters for Harris Corner Detection
