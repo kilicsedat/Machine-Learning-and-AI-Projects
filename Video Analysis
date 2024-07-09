@@ -10,7 +10,7 @@ saver_ViT = VideoDataset_Feature_Saver_ViT(data_dir, clip_len=clip_len, frame_sa
 
 my_dataset = saver_ViT
 
-with open('my_dataset.pkl', 'wb') as f:
+with open('my_dataset.pkll', 'wb') as f:
     pickle.dump(my_dataset, f)
 
 with open('my_dataset.pkl', 'rb') as f:
