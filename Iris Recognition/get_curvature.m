@@ -1,4 +1,4 @@
-function curvature = get_curvature(phi,idx)
+function curvature = get_curvature(phii,idx)
     
     [dimy, dimx] = size(phi);        
     [y x] = ind2sub([dimy,dimx],idx);  % get subscripts
