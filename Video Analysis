@@ -1,7 +1,7 @@
 # Example usage
 data_dir = "shortened_data_for_loader"
 filename = "features.xlsx"
-clip_len = 16
+clip_len = 32
 frame_sample_rate = 8
 #saver = VideoDataset_Feature_Saver(data_dir, clip_len=clip_len, frame_sample_rate=frame_sample_rate, model_feature_exctraction=model_feature_exctraction, image_processor=image_processor)
 saver_ViT = VideoDataset_Feature_Saver_ViT(data_dir, clip_len=clip_len, frame_sample_rate=frame_sample_rate, model_feature_exctraction=model_feature_exctraction_ViT, image_processor=image_processor_ViT)
